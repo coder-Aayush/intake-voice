@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intakeproject/controller/auth_controller.dart';
 
@@ -20,7 +22,15 @@ class LoginScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 child: Text("Continue with Google"),
-                onPressed: () => authController.loginWithGoogle(),
+                onPressed: () {
+                  try {
+                    authController.loginWithGoogle();
+                  } on FirebaseAuthException catch (e) {
+                    Get.snackbar("Problem", '${e.message}');
+                  } catch (e) {
+                    Get.snackbar("Problem", '$e');
+                  }
+                },
               )
             ],
           ),

@@ -8,6 +8,15 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.indigo,
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          elevation: 0.0,
+          color: Colors.indigo,
+        ),
+      ),
       enableLog: true,
       home: SplashScreen(),
     ),
