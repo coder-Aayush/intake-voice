@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intakeproject/controller/auth_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  final AuthController _controller = AuthController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +20,7 @@ class LoginScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 child: Text("Continue with Google"),
-                onPressed: () => _controller.loginWithGoogle(),
+                onPressed: () => authController.loginWithGoogle(),
               )
             ],
           ),

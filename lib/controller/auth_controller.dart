@@ -28,6 +28,9 @@ class AuthController {
   }
 
   logout() async {
+    await _auth.signOut();
     await _googleSignIn.signOut();
   }
 }
+
+final AuthController authController = AuthController();
