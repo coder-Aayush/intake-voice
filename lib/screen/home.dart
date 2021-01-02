@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
 import 'package:intakeproject/controller/audio_controller.dart';
 import 'package:intakeproject/controller/auth_controller.dart';
+import 'package:intakeproject/screen/voices.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -63,12 +63,25 @@ class Home extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 5,
                 ),
                 Text(
                   "Record and Upload",
                   style: Get.theme.textTheme.headline5.copyWith(
                     color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                OutlineButton(
+                  borderSide: BorderSide(color: Colors.white),
+                  onPressed: () => Get.to(Voices()),
+                  child: Text(
+                    "View My Voices",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

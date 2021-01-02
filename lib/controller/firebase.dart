@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intakeproject/constant/app_constant.dart';
 
 class FirebaseController {
   final CollectionReference _ref =
@@ -23,12 +22,18 @@ class FirebaseController {
     UploadTask upload = response.putFile(audioFile);
     upload.then((TaskSnapshot snapshot) {
       snapshot.ref.getDownloadURL().then((audioUrl) {
-        _ref.doc(userid).set({
-          "audio": audioUrl,
-        });
+        _ref.doc(userid).set(
+            {
+              "audio": audioUrl,
+            },
+            SetOptions(
+              merge: false,
+              mergeFields: [
+                'audio',
+              ],
+            ));
       });
     });
-
   }
   // fetch user documents
 
