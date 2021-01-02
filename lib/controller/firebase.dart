@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,22 +10,31 @@ class FirebaseController {
       FirebaseFirestore.instance.collection("users");
 
   // for creating new storage instance
-  final FirebaseStorage _storage =
-      FirebaseStorage.instanceFor(bucket: FirebaseInfo.storageBucketUrl);
+  final Reference _storage = FirebaseStorage.instance.ref('/');
 
   Future createNewUser({@required userid}) async {
     return _ref.doc(userid).set({});
   }
 
-  // create methods to upload mp3 file on firestore using (audio lib)
-  uploadFilleToFirebase({@required userid}) async {
-    // return await _storage.ref('/').putFile().then((e) {
-    //   _ref.doc(userid).set({});
-    // });
+  // TODO: add audio in new field
+  uploadFilleToFirebase(
+      {@required userid, File audioFile, String fileName}) async {
+    Reference response = _storage.child(fileName);
+    UploadTask upload = response.putFile(audioFile);
+    upload.then((TaskSnapshot snapshot) {
+      snapshot.ref.getDownloadURL().then((audioUrl) {
+        _ref.doc(userid).set({
+          "audio": audioUrl,
+        });
+      });
+    });
+
   }
   // fetch user documents
 
-  getUserAudioFile({@required userid}) async {
-    // return  _ref.doc(userid).snapshots();
+  Stream<DocumentSnapshot> getUserAudioFile({@required userid}) {
+    return _ref.doc(userid).snapshots();
   }
 }
+
+final FirebaseController firebaseHalperController = FirebaseController();

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
+import 'package:intakeproject/controller/audio_controller.dart';
 import 'package:intakeproject/controller/auth_controller.dart';
 
 class Home extends StatelessWidget {
@@ -24,33 +26,54 @@ class Home extends StatelessWidget {
   }
 
   Widget _recordLayout() {
+    final AudioController audioController = Get.put(AudioController());
+
     return Container(
       height: 300,
       decoration: BoxDecoration(
         color: Colors.indigo,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-            icon: Icon(
-              Icons.keyboard_voice,
-              size: 50,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Text(
-            "Record and Upload",
-            style: Get.theme.textTheme.headline5.copyWith(
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
+      child: GetBuilder<AudioController>(
+          init: AudioController(),
+          builder: (state) {
+            print(state.isRecording);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    state.isRecording
+                        ? state.stopRecording()
+                        : state.startRecording();
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(80),
+                    ),
+                    child: Icon(
+                      audioController.isRecording
+                          ? Icons.stop
+                          : Icons.keyboard_voice,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Record and Upload",
+                  style: Get.theme.textTheme.headline5.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

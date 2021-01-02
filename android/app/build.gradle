@@ -41,7 +41,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.myvoice.intakeproject"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -65,4 +65,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //  for analytics (it's optional)
     implementation 'com.google.firebase:firebase-analytics'
+    // 
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
 }
