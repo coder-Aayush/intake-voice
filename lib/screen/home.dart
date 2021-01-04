@@ -16,6 +16,12 @@ class Home extends StatelessWidget {
           ),
         ),
         title: Text(authController.getUser().displayName),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => authController.logout(),
+          ),
+        ],
       ),
       body: ListView(
         children: [

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:flutter_sound/public/tau.dart';
@@ -67,4 +68,13 @@ class AudioController extends GetxController {
     isRecording = false;
     update();
   }
+
+  void startAudioPlayer({@required audioPath}) async {
+    await _sound.startPlayer();
+  }
+
+  void stopAudioPlayer()async{
+    await _sound.stopPlayer();
+  }
+
 }

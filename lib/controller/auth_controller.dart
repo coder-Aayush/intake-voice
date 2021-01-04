@@ -15,10 +15,10 @@ class AuthController {
   Stream<AppUser> get onAuthChanged => _auth.authStateChanges().map(_user);
 
   Future<User> loginWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
     try {
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final UserCredential user = await _auth
           .signInWithCredential(
         GoogleAuthProvider.credential(
@@ -27,13 +27,11 @@ class AuthController {
         ),
       )
           .then((user) async {
-         return await _controller.createNewUser(userid: user.user.uid);
+        return await _controller.createNewUser(userid: user.user.uid);
         // create user document using FirebaseController
       });
       return user.user;
     } on FirebaseAuthException catch (e) {
-      throw e.message;
-    } catch (e) {
       throw e.message;
     }
   }

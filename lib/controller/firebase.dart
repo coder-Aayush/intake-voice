@@ -22,22 +22,17 @@ class FirebaseController {
     UploadTask upload = response.putFile(audioFile);
     upload.then((TaskSnapshot snapshot) {
       snapshot.ref.getDownloadURL().then((audioUrl) {
-        _ref.doc(userid).set(
-            {
-              "audio": audioUrl,
-            },
-            SetOptions(
-              merge: false,
-              mergeFields: [
-                'audio',
-              ],
-            ));
+        _ref.doc(userid).collection("audio").add(
+          {
+            "audio": audioUrl,
+          },
+        );
       });
     });
   }
-  // fetch user documents
 
-  Stream<DocumentSnapshot> getUserAudioFile({@required userid}) {
+
+  Stream<DocumentSnapshot> getUserAudioFile({@required String userid}) {
     return _ref.doc(userid).snapshots();
   }
 }
