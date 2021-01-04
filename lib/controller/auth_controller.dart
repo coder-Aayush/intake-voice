@@ -28,7 +28,6 @@ class AuthController {
       )
           .then((user) async {
         return await _controller.createNewUser(userid: user.user.uid);
-        // create user document using FirebaseController
       });
       return user.user;
     } on FirebaseAuthException catch (e) {
