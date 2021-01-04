@@ -15,8 +15,7 @@ class FirebaseController {
     return _ref.doc(userid).set({});
   }
 
-  // TODO: add audio in new field
-  uploadFilleToFirebase(
+  void uploadFilleToFirebase(
       {@required userid, File audioFile, String fileName}) async {
     Reference response = _storage.child(fileName);
     UploadTask upload = response.putFile(audioFile);
