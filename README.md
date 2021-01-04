@@ -40,3 +40,14 @@ Make Sure to enable google authentication and Firebase Storage Option.
 - homepage
 - Voice page (where user can play the uploaded voice)
 - TODO:
+
+## Packages/Plugin
+- firebase_core
+- cloud_firestore
+- firebase_auth
+- firebase_storage
+- flutter_sound
+- google_sign_in
+- get (For simple state managment and dependancy injection)
+- path_provider
+- permission_handler (for runtime permission)
