@@ -3,7 +3,7 @@ simple project for recording voice and storing to Firebase
 
 
 ### DEMO APP
-TODO: Link 
+- https://github.com/coder-Aayush/intake-voice/tree/main/demoapp
 
 ## Running Project
 Before running project you need to configure firebase. Go to console.firebase.com and make project and place google-services.json file in android/app/
