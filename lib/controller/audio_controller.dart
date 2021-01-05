@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
@@ -14,11 +13,12 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class AudioController extends GetxController {
   final FlutterSoundRecorder _soundRecorder = FlutterSoundRecorder();
-  final FlutterSoundPlayer _sound = FlutterSoundPlayer();
+  final FlutterSoundPlayer _player = FlutterSoundPlayer();
+  bool isPlaying = false;
   bool isRecording = false;
   String outputPathDir;
-  File outputFile;
-  String fileName;
+  File _outputFile;
+  String _fileName;
 
   AudioController() {
     _init();
@@ -28,7 +28,7 @@ class AudioController extends GetxController {
     await _soundRecorder.openAudioSession(
       category: SessionCategory.record,
     );
-    await _sound.openAudioSession();
+    await _player.openAudioSession();
   }
 
   startRecording() async {
@@ -36,17 +36,16 @@ class AudioController extends GetxController {
     var storage = await Permission.storage.request();
     var tempDir = await getTemporaryDirectory();
 
-    print(outputFile);
     if (status.isGranted && storage.isGranted && _soundRecorder.isStopped) {
       outputPathDir =
-          "${tempDir.path}/record${DateTime.now().millisecondsSinceEpoch}.acc";
+          "${tempDir.path}/record${DateTime.now().millisecondsSinceEpoch}.wav";
       _soundRecorder.startRecorder(
         toFile: outputPathDir,
-        codec: Codec.aacADTS,
+        codec: Codec.pcm16WAV,
       );
       isRecording = true;
-      fileName = 'record${DateTime.now().millisecondsSinceEpoch}.acc';
-      outputFile = File(outputPathDir);
+      _fileName = 'record${DateTime.now().millisecondsSinceEpoch}.wav';
+      _outputFile = File(outputPathDir);
       update();
     } else {
       Get.snackbar("Alert", 'Unknown Error');
@@ -55,26 +54,31 @@ class AudioController extends GetxController {
 
   stopRecording() async {
     _soundRecorder.stopRecorder();
-    print(outputFile);
-    await _sound.startPlayer(
+    await _player.startPlayer(
       fromURI: outputPathDir,
+      codec: Codec.opusWebM,
     );
     firebaseHalperController.uploadFilleToFirebase(
       userid: authController.getUser().uid,
-      audioFile: outputFile,
-      fileName: fileName,
+      audioFile: _outputFile,
+      fileName: _fileName,
     );
-    print(outputPathDir);
     isRecording = false;
     update();
   }
 
-  void startAudioPlayer({@required audioPath}) async {
-    await _sound.startPlayer();
+  void startAudioPlayer({@required String audioPath}) async {
+    await _player.startPlayer(
+      fromURI: audioPath,
+      codec: Codec.opusWebM,
+    );
+    isPlaying = true;
+    update();
   }
 
-  void stopAudioPlayer()async{
-    await _sound.stopPlayer();
+  void stopAudioPlayer() async {
+    await _player.stopPlayer();
+    isPlaying = false;
+    update();
   }
-
 }

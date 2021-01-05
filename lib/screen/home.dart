@@ -12,7 +12,8 @@ class Home extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(authController.getUser().photoUrl),
+            backgroundImage:
+                NetworkImage(authController.getUser().photoURL) ?? null,
           ),
         ),
         title: Text(authController.getUser().displayName),
@@ -23,7 +24,7 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
+      body: Column(
         children: [
           _recordLayout(),
         ],
@@ -36,6 +37,7 @@ class Home extends StatelessWidget {
 
     return Container(
       height: 300,
+      width: Get.width,
       decoration: BoxDecoration(
         color: Colors.indigo,
       ),
